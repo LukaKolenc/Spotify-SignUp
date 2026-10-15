@@ -1,0 +1,519 @@
+*{
+  margin: 0;
+  padding: 0;
+}
+
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #ffffff;
+  background: #000;
+}
+
+/* Ozadje: nočno nebo
+   Sloj je pritrjen na okno (fixed + inset: 0) in zapolni cel zaslon.
+   Vse mere v ozadju so v vw/% (ne v px): ko povečaš stran (Ctrl +),
+   se širina okna v CSS-pikslih zmanjša, zato ostanejo zvezde in lise
+   enako velike. Povečata se samo obrazec in besedilo. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    /* zvezde (različne velikosti ploščic, da se vzorec ne opazi) */
+    radial-gradient(circle max(1px, 0.1vw) at 12% 14%, #fff, transparent),
+    radial-gradient(circle max(1px, 0.07vw) at 39% 61%, rgba(255, 255, 255, 0.8), transparent),
+    radial-gradient(circle max(1px, 0.1vw) at 61% 25%, rgba(255, 255, 255, 0.9), transparent),
+    radial-gradient(circle max(1px, 0.07vw) at 31% 76%, rgba(255, 255, 255, 0.6), transparent),
+    radial-gradient(circle max(1px, 0.13vw) at 40% 61%, rgba(30, 215, 96, 0.9), transparent),
+    /* mehki svetlobni lisi, ki se raztegnejo z oknom */
+    radial-gradient(ellipse 60% 55% at 15% 105%, rgba(30, 215, 96, 0.35), transparent 70%),
+    radial-gradient(ellipse 55% 50% at 90% 0%, rgba(110, 70, 220, 0.30), transparent 70%),
+    linear-gradient(to bottom, #0b1020 0%, #050507 100%);
+  background-size:
+    12vw 14.6vw,
+    16vw 13.7vw,
+    18vw 16.7vw,
+    13vw 15.5vw,
+    23.4vw 21.6vw,
+    100% 100%,
+    100% 100%,
+    100% 100%;
+  background-repeat: repeat, repeat, repeat, repeat, repeat, no-repeat, no-repeat, no-repeat;
+}
+
+a {
+  color:#1ed760;
+  text-decoration: underline;
+}
+
+a:hover {
+  color: #3be477;
+}
+
+.skrito {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+
+
+.glava {
+  width: 100%;
+  padding: 32px 16px 16px;
+  display: flex;
+  justify-content: center;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-ikona {
+  width: 40px;
+  height: 40px;
+}
+
+.logo-besedilo {
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+}
+
+
+
+#kartica {
+  width: 100%;
+  max-width: 336px;
+  padding: 16px 0 32px;
+}
+
+h1 {
+  margin: 0 0 32px;
+  font-size: 40px;
+  line-height: 1.1;
+  font-weight: 800;
+  text-align: center;
+}
+
+
+
+.polje {
+  margin-bottom: 22px;
+}
+
+label,
+.oznaka {
+  display: block;
+  margin-bottom: 7px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+input[type="email"],
+input[type="password"],
+input[type="text"],
+input[type="number"],
+select {
+  width: 100%;
+  height: 48px;
+  padding: 0 14px;
+  font: inherit;
+  color: #ffffff;
+  background: #121212;
+  border: 1px solid #727272;
+  border-radius: 4px;
+  transition: border-color 0.15s;
+}
+
+input::placeholder {
+  color: #a7a7a7;
+}
+
+input:hover,
+select:hover {
+  border-color: #ffffff;
+}
+
+input:focus-visible,
+select:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 0;
+  border-color: #ffffff;
+}
+
+input:user-invalid,
+select:user-invalid {
+  border-color: #f15e6c;
+  outline-color: #f15e6c;
+}
+
+
+
+input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+select {
+  appearance: none;
+  -webkit-appearance: none;
+  padding-right: 35px;
+  cursor: pointer;
+  background-image:
+    linear-gradient(45deg, transparent 50%, #fff 50%),
+    linear-gradient(135deg, #fff 50%, transparent 50%);
+  background-position:
+    calc(100% - 18px) 21px,
+    calc(100% - 13px) 21px;
+  background-size: 6px 6px;
+  background-repeat: no-repeat;
+}
+
+select option {
+  background: #282828;
+  color: #fff;
+}
+
+.namig {
+  margin-top: 6px;
+  font-size: 13px;
+  color: #a7a7a7;
+}
+
+
+
+.datum {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1.3fr;
+  gap: 10px;
+}
+
+.datum label {
+  margin: 0;
+}
+
+
+.spol {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 18px;
+}
+
+.izbira,
+.potrdi {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 0;
+  font-size: 14px;
+  font-weight: 400;
+  cursor: pointer;
+}
+
+
+
+input[type="radio"] {
+  appearance: none;
+  -webkit-appearance: none;
+  flex: none;
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  border: 2px solid #727272;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+}
+
+input[type="radio"]:hover {
+  border-color: #ffffff;
+}
+
+input[type="radio"]:checked {
+  border-color: #1ed760;
+  background: radial-gradient(circle, #1ed760 0 45%, transparent 50%);
+}
+
+input[type="radio"]:focus-visible,
+input[type="checkbox"]:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 2px;
+}
+
+
+
+
+.potrditve {
+  display: grid;
+  gap: 14px;
+  margin: 29px 0;
+}
+
+.potrdi {
+  align-items: flex-start;
+  line-height: 1.35;
+}
+
+input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  flex: none;
+  width: 20px;
+  height: 20px;
+  margin: 1px 0 0;
+  border: 2px solid #727272;
+  border-radius: 3px;
+  background: transparent;
+  cursor: pointer;
+  position: relative;
+}
+
+input[type="checkbox"]:hover {
+  border-color: #ffffff;
+}
+
+input[type="checkbox"]:checked {
+  background: #1ed760;
+  border-color: #1ed760;
+}
+
+input[type="checkbox"]:checked::after {
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: 1px;
+  width: 4px;
+  height: 10px;
+  border: solid #000;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+
+
+
+button {
+  font: inherit;
+  cursor: pointer;
+}
+
+.gumb {
+  width: 100%;
+  height: 48px;
+  font-weight: 700;
+  color: #000000;
+  background: #1ed760;
+  border: 0;
+  border-radius: 500px;
+}
+
+.gumb:hover {
+  background: #3be477;
+  transform: scale(1.03);
+}
+
+.gumb:active {
+  transform: scale(0.98);
+  background: #169c46;
+}
+
+.gumb:focus-visible,
+.gumb-rob:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 3px;
+}
+
+
+
+
+.locilo {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 29px 0;
+  color: #a7a7a7;
+  font-size: 14px;
+}
+
+.locilo::before,
+.locilo::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #292929;
+}
+
+
+
+
+.druzbena {
+  display: grid;
+  gap: 11px;
+}
+
+.gumb-rob {
+  position: relative;
+  width: 100%;
+  height: 48px;
+  padding: 0 16px;
+  font-weight: 700;
+  color: #ffffff;
+  background: transparent;
+  border: 1px solid #727272;
+  border-radius: 500px;
+}
+
+.gumb-rob:hover {
+  border-color: #ffffff;
+  transform: scale(1.02);
+}
+
+
+
+
+.prijava {
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid #292929;
+  text-align: center;
+  color: #a7a7a7;
+}
+
+.noga {
+  margin-top: auto;
+  padding: 24px 16px;
+  font-size: 12px;
+  text-align: center;
+  color: #6a6a6a;
+}
+
+
+
+@media (max-width: 480px) {
+  #kartica {
+    padding: 8px 20px 32px;
+  }
+
+  h1 {
+    font-size: 32px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+  }
+}
+
+
+
+@media (min-width: 1000px) {
+  .glava {
+    padding: 24px 16px 8px;
+  }
+
+  #kartica {
+    max-width: 992px;
+    margin: 8px 0 16px;
+    padding: 28px 56px 32px;
+    background: rgba(18, 18, 18, 0.82);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  h1 {
+    margin-bottom: 24px;
+    font-size: 34px;
+  }
+
+  #levi {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: repeat(5, auto) 1fr;
+    column-gap: 56px;
+    align-items: start;
+  }
+
+  #levi > .polje {
+    grid-column: 1;
+  }
+
+  .desni {
+    grid-column: 2;
+    grid-row: 1 / -1;
+  }
+
+  .polje {
+    margin-bottom: 18px;
+  }
+
+  .potrditve {
+    margin: 0 0 24px;
+  }
+
+  .locilo {
+    margin: 22px 0;
+  }
+
+  .prijava {
+    margin-top: 24px;
+    padding-top: 19px;
+  }
+
+  .noga {
+    padding: 8px 16px 16px;
+  }
+}
+
+
+
+/* SweetAlert */
+.swal-spotify {
+  border-radius: 12px;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;;
+}
+
+.swal-spotify .swal2-title {
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.swal-spotify .swal2-html-container {
+  color: #a7a7a7;
+}
+
+.swal-spotify-gumb {
+  padding: 11px 32px !important;
+  border-radius: 500px !important;
+  font-weight: 700 !important;
+  color: #000 !important;
+}
